@@ -60,13 +60,16 @@ if __name__ == "__main__":
     net = Network()
     print("Numero de joueur : "+str(net.getNumPlayer()))
     while 1:
-        print("RECEPTION")
-        print net.getBoardState()
+        print("RECEPTION DU PLATEAU ")
+        game = net.getBoardState()
 
-        exit()
 
+        print("COMPUTING DE L'IA")
+
+
+
+        print("ENVOI DU MOVE")
         move = moves[i%4]
-        print("ENVOI : " + str(move))
 
         net._send(move)
         i+=1
