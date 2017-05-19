@@ -44,7 +44,7 @@ class Network():
         return self.skt.recv(BUFFSIZE_RECV).decode('utf-8')
 
     def getNumPlayer(self):
-        return self.playerNumber
+        return int(self.playerNumber)
 
     def getBoardState(self):
         return Parser.Parser().parseIn(self._get())
@@ -59,11 +59,15 @@ if __name__ == "__main__":
 
     net = Network()
     print("Numero de joueur : "+str(net.getNumPlayer()))
+
     while 1:
         print("RECEPTION DU PLATEAU ")
         game = net.getBoardState()
 
 
+        myself = game.players[net.getNumPlayer()]
+        print("MYSELF : ")
+        print(myself)
         print("COMPUTING DE L'IA")
 
 

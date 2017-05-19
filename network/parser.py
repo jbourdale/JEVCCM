@@ -10,7 +10,6 @@ class Parser(object):
         super(Parser, self).__init__()
 
     def parseIn(self, indata):
-        print("bite")
         p = indata.split('/')
         sz = p[0].split('x')
         board = p[1].split('-')
@@ -24,9 +23,15 @@ class Parser(object):
 
             game = Callais.Callais(sz[0], sz[1])
 
+            players_arr = []
             for i,p in enumerate(players):
                 if i != 0:
                     print('player%d :'%i, p)
+                    x = int(p.split(",")[0])
+                    y = int(p.split(",")[1])
+                    players_arr.append(Callais.Player((i-1),x,y))
+
+            game.setPlayers(players_arr)
 
             for (i, e) in enumerate(board):
 

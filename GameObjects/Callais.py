@@ -54,15 +54,14 @@ class Biere(Case):
 
 
 
-class Player (Case) :
-	def __init__ (self,nomEquipe) :
-		self.nomEquipe = nomEquipe
+class Player() :
+	def __init__(self,identifiant,x,y):
+		self.id = identifiant
+		self.x = x
+		self.y = y
 
-	def setEquipe(self,nomEquipe):
-		self.nomEquipe = nomEquipe;
-
-	def getEquipe(self):
-		return self.nomEquipe;
+	def __str__(self):
+		return "Joueur "+str(self.id)+" ("+str(self.x)+";"+str(self.y)+")"
 
 
 
@@ -70,9 +69,11 @@ class Callais () :
 	def __init__(self,width, height) :
 		width = int(width)
 		height = int(height)
+
 		self.cases = [[Case(x,y) for x in range(height)] for y in range(width)]
 		self.height = height
 		self.width = width
+		self.players = []
 
 
 	def getCase(self,x,y) :
@@ -93,9 +94,15 @@ class Callais () :
 			casesPossibles.append(self.getCase(case.x + 1,case.y))
 		return casesPossibles
 
+	def setPlayers(self, players):
+		self.players = players
+
 
 	def __str__(self):
 		s=""
+		for x in range(len(self.players)):
+			s+= str(self.players[x]) + "\n"
+
 		for x in range(self.width):
 			for y in range(self.height):
 				s += str(self.getCase(x,y)) +" | "
