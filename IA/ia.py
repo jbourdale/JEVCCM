@@ -1,7 +1,7 @@
 import heapq
 import math
 import sys
-sys.path.append("../GameObjects")
+sys.path.append("./GameObjects")
 import Callais# NOQA
 
 def shorter_way(depart, goal,callaisObject):
@@ -12,17 +12,18 @@ def shorter_way(depart, goal,callaisObject):
     openList.put(depart)
     while len(openList.elements) !=0:
         currentCase = openList.get()
-        print('currentCase: '+str(currentCase))
+        #print('currentCase: '+str(currentCase))
         #Si on est sur goal on arrete
         if currentCase == goal:
-            print("YOLO ON A TROUV2")
+        #    print("YOLO ON A TROUV2")
             return (corresponding_move(depart,first_destination(currentCase)), currentCase.cost)
         #Sinon on check tous les voisins
         #voisin = currentCase.getVoisin()
         voisin = callaisObject.getVoisin(currentCase)
         for currentVoisin in voisin:#si on l'a pour moins chere on pass
             if(closedList.has_and_cheaper(currentVoisin, currentCase.cost +1) or closedList.has_and_cheaper(currentVoisin,currentCase.cost+1)):
-                print('already in queue: '+str(currentVoisin))
+                #print('already in queue: '+str(currentVoisin))
+                pass
             else:
                 currentVoisin.parent = currentCase
                 currentVoisin.cost=currentCase.cost+1
@@ -47,10 +48,10 @@ def compute_heuristique(currentCase, goal):
 
 #return the first move made        
 def first_destination(currentCase):
+
     if currentCase.parent.parent == None:
         return currentCase
     else:
-        print('current parent: '+str(currentCase.parent))
         return first_destination(currentCase.parent)
 
 def shorter_way_2(depart, goal):
@@ -59,17 +60,17 @@ def shorter_way_2(depart, goal):
     openList.put(depart)
     while not openList.empty():
         currentCase = openList.get()
-        print('currentCase: '+currentCase)
+        #print('currentCase: '+currentCase)
         #Si on est sur goal on arrete
         if currentCase == goal:
-            print("YOLO ON A TROUV2")
             return corresponding_move(depart,first_destination(currentCase))
         #Sinon on check tous les voisins
         voisin = Callais.getVoisin(currentCase)
 
         for currentVoisin in voisin:#si on l'a pour moins chere on pass
             if(closedList.has_and_cheaper(currentVoisin, currentCase +1) or closedList.has_and_cheaper(currentVoisin,currentCase+1)):
-                print('already in queue: '+currentVoisin )
+            #    print('already in queue: '+currentVoisin )
+                pass
             else:
                 currentVoisin.parent = currentCase
                 currentVoisin.setCost(currentCase.cost+1)
@@ -91,8 +92,8 @@ class MyPriorityQueue:
 
     def has_and_cheaper(self, currentCase, currentCost):
         for (prio,case) in self.elements:
-            print('prio: '+str(prio))
-            print('case: '+str(case))
+            #print('prio: '+str(prio))
+            #print('case: '+str(case))
             if(case == currentCase):
                 #return prio < currentCost
                 return True
@@ -114,27 +115,27 @@ class Case:#ONLY FOR TESTING PURPOSE
         return sqrt(pow(case.x - case.x,2) + pow(case.y - self.y,2))
 
 """
-def sortMoule(listeMoule):
+def sortMoule(listeMoule,depart):
     for i in range(len(listeMoule)):
         currentMoule = listeMoule[i]
         for j in range (len(listeMoule)):
-            if currentMoule.nbrDePoints < listeMoule[j]:
+            if currentMoule.distance(depart) < listeMoule[j].distance(depart)+1:
                 listeMoule[i] = listeMoule[j]
                 listeMoule[j] = currentMoule
-    return listMoule
+    return listeMoule
 
 
 
 #def find_goal(depart, listeMoule):
     #sort listMoule
-def find_goal(depart,listeMoule,listeDepartOthers):
+def find_goal(depart,listeMoule,listeDepartOthers, callaisObject):
     listeMoule = sortMoule(listeMoule)
     for i in range (len(listeMoule)):
         mouleCourante = listeMoule[i]
         ok = True
-        for departOther in listeDepartOthers:
-            if (shorter_way(depart,mouleCourante)[1]>shorter_way(departOther,mouleCourante)[1]):
-                ok = False
+        #for departOther in listeDepartOthers:
+        #    if (shorter_way(depart,mouleCourante, callaisObject)[1]>shorter_way(departOther,mouleCourante,callaisObject)[1]):
+        #        ok = False
         if ok:
             return mouleCourante
     return listeMoule[0]

@@ -2,8 +2,9 @@
 import re
 
 import sys
-sys.path.append("../GameObjects")
-import Callais
+
+sys.path.append("./GameObjects")
+from GameObjects import Callais
 
 
 
@@ -12,13 +13,22 @@ class Parser(object):
         super(Parser, self).__init__()
 
     def parseIn(self, indata):
-        p = indata.split('/')
-        sz = p[0].split('x')
-        board = p[1].split('-')
-        players = p[2].split('-')
+        # print("INDATA")
+        # print(indata)
+        # print(type(indata))
+        if indata is "FIN":
+            return None
+
+        try:
+            p = indata.split('/')
+            sz = p[0].split('x')
+            board = p[1].split('-')
+            players = p[2].split('-')
+        except:
+            return None
 
         if not len(board) == int(sz[0]) * int(sz[1]):
-            print("Incorrect data")
+            #print("Incorrect data")
             return None
         else:
             # print('size:', sz[0], 'x', sz[1])
@@ -28,7 +38,7 @@ class Parser(object):
             players_arr = []
             for i,p in enumerate(players):
                 if i != 0:
-                    print('player%d :'%i, p)
+                    #print('player%d :'%i, p)
                     x = int(p.split(",")[0])
                     y = int(p.split(",")[1])
                     players_arr.append(Callais.Player((i-1),x,y))
@@ -53,7 +63,7 @@ class Parser(object):
                 else:
                     case = Callais.Moule(e, coords[0], coords[1])
 
-                print("AJOUT CASE : "+str(coords[0])+";"+str(coords[1]))
+                #print("AJOUT CASE : "+str(coords[0])+";"+str(coords[1]))
 
                 game.setCase(coords[0], coords[1], case)
 

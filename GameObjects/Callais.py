@@ -14,7 +14,7 @@ class Case :
 		return self.x == case.x and self.y == case.y
 
 	def distance(self,case) :
-		return Math.sqrt(Math.pow(case.x - case.x,2) + Math.pow(case.y - self.y,2))
+		return Math.sqrt(Math.pow(case.x - self.x,2) + Math.pow(case.y - self.y,2))
 
 	def __str__(self):
 		return 'Case ('+self.x+";"+self.y+")"
@@ -123,6 +123,21 @@ class Callais () :
 		x = player.x
 		y = player.y
 		return self.getCase(x,y)
+
+	def getMoule(self):
+		listeMoule=[]
+		for x in range(self.width):
+			for y in range(self.height):
+				if type(self.getCase(x,y)) == Moule:
+					listeMoule.append(self.getCase(x,y))
+		return listeMoule
+
+	def listeDepartOthers(self,myself,listePlayers):
+		listeOthers=[]
+		for x in range(len(listePlayers)):
+			if listePlayers[x] != myself:
+				listeOthers.append(self.getPlayerCase(listePlayers[x]))	
+		return listeOthers
 
 	def getVoisin(self,currentCase): 
 		casesPossibles = []
