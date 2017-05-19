@@ -1,40 +1,56 @@
 # data = '4x2/D-E-N-F-D-D-D-D/3-1,1-11,9-11,1'
 import re
 
+import sys
+sys.path.append("../GameObjects")
+import Callais
+
 class Parser(object):
     def __init__(self):
         super(Parser, self).__init__()
 
     def parseIn(self, indata):
+        print("bite")
         p = indata.split('/')
         sz = p[0].split('x')
         board = p[1].split('-')
         players = p[2].split('-')
+
         if not len(board) == int(sz[0]) * int(sz[1]):
             print("Incorrect data")
             return None
         else:
-            print('size:', sz[0], 'x', sz[1])
+            # print('size:', sz[0], 'x', sz[1])
+
+            game = Callais.Callais(sz[0], sz[1])
+
             for i,p in enumerate(players):
                 if i != 0:
                     print('player%d :'%i, p)
 
-            print()
             for (i, e) in enumerate(board):
 
                 coords = ( int(i/(int(sz[0]))) , i % int(sz[0]) )
-                print("case en : "+str(coords)+" , de type : ", end="")
+                # print("case en : "+str(coords)+" , de type : ", end="")
+
+                case = Callais.Case(coords[0], coords[1])
 
                 if e == "D":
-                    print("Dune")
+                    case = Callais.Dune(coords[0], coords[1])
                 elif e == "S":
-                    print("Sable")
+                    case = Callais.Sable(coords[0], coords[1])
                 elif e == "F":
-                    print("Frite")
+                    case = Callais.Frite(coords[0], coords[1])
                 elif e == "B":
-                    print("Biere")
+                    case =  Callais.Biere(coords[0], coords[1])
                 else:
-                    print("Moule de valeur : "+str(e))
+                    case = Callais.Moule(e, coords[0], coords[1])
+
+                print("AJOUT CASE : "+str(coords[0])+";"+str(coords[1]))
+
+                game.setCase(coords[0], coords[1], case)
+
+            return game
 
 
     def parseOut(self, outdata):

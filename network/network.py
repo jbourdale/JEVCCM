@@ -1,6 +1,8 @@
 import socket
 import parser as Parser
 
+
+
 DEFAULT_PORT = 1337
 DEFAULT_IP = "127.0.0.1"
 DEFAULT_NAME = "Undefined"
@@ -45,7 +47,7 @@ class Network():
         return self.playerNumber
 
     def getBoardState(self):
-        return Parser.Parser().parseOut(self._get())
+        return Parser.Parser().parseIn(self._get())
 
 
 
@@ -59,8 +61,9 @@ if __name__ == "__main__":
     print("Numero de joueur : "+str(net.getNumPlayer()))
     while 1:
         print("RECEPTION")
-        get = net._get()
-        net.parser.parseIn(get)
+        print net.getBoardState()
+
+        exit()
 
         move = moves[i%4]
         print("ENVOI : " + str(move))
