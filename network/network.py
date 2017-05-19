@@ -1,6 +1,8 @@
 import socket
 import parser as Parser
-
+import sys
+sys.path.append("../IA")
+import ia as IA
 
 
 DEFAULT_PORT = 1337
@@ -9,6 +11,7 @@ DEFAULT_NAME = "Undefined"
 DEFAULT_ENCODE = "utf-8"
 
 BUFFSIZE_RECV = 2048
+
 
 
 class Network():
@@ -69,11 +72,12 @@ if __name__ == "__main__":
         print("MYSELF : ")
         print(myself)
         print("COMPUTING DE L'IA")
-
+        depart = game.getPlayerCase(myself)
+        move = IA.shorter_way(depart,game.getCase(5,5),game)[0]
 
 
         print("ENVOI DU MOVE")
-        move = moves[i%4]
+        #move = moves[i%4]
 
         net._send(move)
         i+=1

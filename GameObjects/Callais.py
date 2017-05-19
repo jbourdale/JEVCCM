@@ -1,9 +1,16 @@
+import math as Math
+
 class Case :
 	def __init__(self, x,y) :
 		self.x = x
 		self.y = y
+		self.heuristique = None
+		self.cost = None
+		self.parent = None
 
 	def __eq__(self,case) :
+		if not case:
+			return False
 		return self.x == case.x and self.y == case.y
 
 	def distance(self,case) :
@@ -11,6 +18,9 @@ class Case :
 
 	def __str__(self):
 		return 'Case ('+self.x+";"+self.y+")"
+
+	def __lt__(self ,other):
+		return self.heuristique < other.heuristique
 
 
 
@@ -82,7 +92,7 @@ class Callais () :
 	def setCase(self,x,y,case) :
 		self.cases[y][x] = case;
 
-	def donnerVoisins(self,case) :
+	"""def donnerVoisins(self,case) :
 		casesPossibles = []
 		if (type(self.getCase(case.x - 1,case.y)) != Dune) :
 			casesPossibles.append(self.getCase(case.x - 1,case.y))
@@ -92,7 +102,7 @@ class Callais () :
 			casesPossibles.append(self.getCase(case.x,case.y - 1))
 		if (type(self.getCase(case.x + 1,case.y)) != Dune) :
 			casesPossibles.append(self.getCase(case.x + 1,case.y))
-		return casesPossibles
+		return casesPossibles"""
 
 	def setPlayers(self, players):
 		self.players = players
@@ -108,6 +118,35 @@ class Callais () :
 				s += str(self.getCase(x,y)) +" | "
 			s += "\n"
 		return s
+        
+	def getPlayerCase(self,player):
+		x = player.x
+		y = player.y
+		return self.getCase(x,y)
 
+	def getVoisin(self,currentCase): 
+		casesPossibles = []
+		if (type(self.cases[currentCase.y][currentCase.x+1]) != Dune) : 
+			casesPossibles.append(self.cases[currentCase.y][currentCase.x+1])
+		if (type(self.cases[currentCase.y][currentCase.x-1]) != Dune) : 
+			casesPossibles.append(self.cases[currentCase.y][currentCase.x-1])
+		if (type(self.cases[currentCase.y-1][currentCase.x]) != Dune) : 
+			casesPossibles.append(self.cases[currentCase.y-1][currentCase.x])
+		if (type(self.cases[currentCase.y+1][currentCase.x]) != Dune) : 
+			casesPossibles.append(self.cases[currentCase.y+1][currentCase.x])
 
+		return casesPossibles
 
+"""	def getVoisin(self,currentCase): 
+		casesPossibles = []
+		if (type(cases[currentCase.y][currentCase.x+1]) != Dune) : 
+			casesPossibles.append(cases[currentCase.y][currentCase.x+1])
+		if (type(cases[currentCase.y][currentCase.x-1]) != Dune) : 
+			casesPossibles.append(cases[currentCase.y][currentCase.x-1])
+		if (type(cases[currentCase.y-1][currentCase.x]) != Dune) : 
+			casesPossibles.append(cases[currentCase.y-1][currentCase.x])
+		if (type(cases[currentCase.y+1][currentCase.x]) != Dune) : 
+			casesPossibles.append(cases[currentCase.y+1][currentCase.x])
+
+		return casesPossibles"""
+	

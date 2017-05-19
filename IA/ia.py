@@ -1,38 +1,43 @@
 import heapq
 import math
+import sys
+sys.path.append("../GameObjects")
+import Callais# NOQA
 
-def shorter_way(depart, goal):
-    closedList = PriorityQueue()
-    openList = PriorityQueue()
+def shorter_way(depart, goal,callaisObject):
+    closedList = MyPriorityQueue()
+    openList = MyPriorityQueue()
+    depart.cost=0
+    depart.heuristique =  compute_heuristique(depart, goal)
     openList.put(depart)
-    while not openList.empty():
+    while len(openList.elements) !=0:
         currentCase = openList.get()
-        print('currentCase: '+currentCase)
+        print('currentCase: '+str(currentCase))
         #Si on est sur goal on arrete
         if currentCase == goal:
             print("YOLO ON A TROUV2")
             return (corresponding_move(depart,first_destination(currentCase)), currentCase.cost)
         #Sinon on check tous les voisins
-        voisin = currentCase.getVoisin()
-
+        #voisin = currentCase.getVoisin()
+        voisin = callaisObject.getVoisin(currentCase)
         for currentVoisin in voisin:#si on l'a pour moins chere on pass
-            if(closedList.has_and_cheaper(currentVoisin, currentCase +1) or closedList.has_and_cheaper(currentVoisin,currentCase+1)):
-                print('already in queue: '+currentVoisin )
+            if(closedList.has_and_cheaper(currentVoisin, currentCase.cost +1) or closedList.has_and_cheaper(currentVoisin,currentCase.cost+1)):
+                print('already in queue: '+str(currentVoisin))
             else:
                 currentVoisin.parent = currentCase
-                currentVoisin.setCost(currentCase.cost+1)
+                currentVoisin.cost=currentCase.cost+1
                 currentVoisin.heuristique = compute_heuristique(currentVoisin, goal)
-                openList.add(currentVoisin)
+                openList.put(currentVoisin)
 
-        closedList.put(currentCase.heuristique,currentCase)
+        closedList.put(currentCase)
     return "C"
 
 def corresponding_move(depart,destination):
-    if depart.x<destination.x:
+    if depart.y<destination.y:
         return "E"
-    elif depart.x>destination.x:
+    elif depart.y>destination.y:
         return "O"
-    elif depart.y<destination.y:
+    elif depart.x<destination.x:
         return "S"
     else: 
         return "N"
@@ -42,10 +47,11 @@ def compute_heuristique(currentCase, goal):
 
 #return the first move made        
 def first_destination(currentCase):
-    if currentCase.parent.parent==None:
+    if currentCase.parent.parent == None:
         return currentCase
     else:
-        return firstMove(currentCase.parent)
+        print('current parent: '+str(currentCase.parent))
+        return first_destination(currentCase.parent)
 
 def shorter_way_2(depart, goal):
     closedList = PriorityQueue()
@@ -59,7 +65,7 @@ def shorter_way_2(depart, goal):
             print("YOLO ON A TROUV2")
             return corresponding_move(depart,first_destination(currentCase))
         #Sinon on check tous les voisins
-        voisin = Callai.getVoisin(currentCase)
+        voisin = Callais.getVoisin(currentCase)
 
         for currentVoisin in voisin:#si on l'a pour moins chere on pass
             if(closedList.has_and_cheaper(currentVoisin, currentCase +1) or closedList.has_and_cheaper(currentVoisin,currentCase+1)):
@@ -83,10 +89,13 @@ class MyPriorityQueue:
     def get(self):
         return heapq.heappop(self.elements)[1]
 
-    def has_and_cheaper(currentCase, currentCost):
-        for (prio,case) in elements:
+    def has_and_cheaper(self, currentCase, currentCost):
+        for (prio,case) in self.elements:
+            print('prio: '+str(prio))
+            print('case: '+str(case))
             if(case == currentCase):
-                return prio < currentCost
+                #return prio < currentCost
+                return True
         return False
 """
 class Case:#ONLY FOR TESTING PURPOSE
