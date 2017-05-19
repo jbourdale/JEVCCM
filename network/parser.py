@@ -1,4 +1,4 @@
-data = '4x2/D-E-N-F-D-D-D-D/3-1,1-11,9-11,1'
+# data = '4x2/D-E-N-F-D-D-D-D/3-1,1-11,9-11,1'
 
 
 class Parser(object):
@@ -21,12 +21,26 @@ class Parser(object):
 
             print()
             for (i, e) in enumerate(board):
-                print('case en ', int(i/(int(sz[0]))), ';', i % int(sz[0]), ' contenant ', e, sep='')
+
+                coords = ( int(i/(int(sz[0]))) , i % int(sz[0]) )
+                print("case en : "+str(coords)+" , de type : ", end="")
+
+                if e == "D":
+                    print("Dune")
+                elif e == "S":
+                    print("Sable")
+                elif e == "F":
+                    print("Frite")
+                elif e == "B":
+                    print("Biere")
+                else:
+                    print("Moule de valeur : "+str(e))
+
 
     def parseOut(self, outdata):
         if():
             return outdata
 
 
-p = Parser()
-p.parseIn(data)
+# p = Parser()
+# p.parseIn(data)
