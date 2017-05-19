@@ -45,7 +45,7 @@ class Network():
         return self.playerNumber
 
     def getBoardState(self):
-        return self._get()
+        return Parser.Parser().parseOut(self._get())
 
 
 

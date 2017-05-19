@@ -1,5 +1,5 @@
 # data = '4x2/D-E-N-F-D-D-D-D/3-1,1-11,9-11,1'
-
+import re
 
 class Parser(object):
     def __init__(self):
@@ -38,8 +38,7 @@ class Parser(object):
 
 
     def parseOut(self, outdata):
-        if():
-            return outdata
+        pass
 
 
 # p = Parser()
